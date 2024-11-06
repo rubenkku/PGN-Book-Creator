@@ -1,0 +1,63 @@
+Book making utilities
+       PolyGlot supports the "PolyGlot opening book format". This is the
+       defacto standard non-proprietary opening book format.
+
+       Roughly speaking a PolyGlot opening book is a collection of triples
+       (position, move, weight). A "position" is represented by a 64-bit
+       Zobrist hash key. The weight is proportional to the probability the
+       move should be played.
+
+       Other opening book formats such as ChessBase's .ctg format and Arena's
+       .abk format are undocumented and proprietary. They can only be used by
+       their own GUIs.
+
+       PolyGlot can compile a pgn file into a binary PolyGlot book and
+       furthermore it can merge two such binary books into a third one.
+
+polyglot make-book
+       PolyGlot supports the following options
+
+       -pgn (default: "book.pgn")
+           Input file in pgn format.
+
+       -bin (default: "book.bin")
+           Output file in PolyGlot format.
+
+       -max-ply (default: 1024)
+           Specifies the maximum ply-depth of lines included in the book.
+
+       -min-game (default: 3)
+           Specifies the minimum number of games that have to contain this
+           move for it to be included in the book.
+
+       -min-score (default: 0.0)
+           Specifies the minimum score (or weight) this move should have
+           received for it to  be included in the book. The score is
+           2*(wins)+(draws), globally scaled to fit into 16 bits.
+
+       -only-white
+           Include only moves for white in the book.
+
+       -only-black
+           Include only moves for black in the book.
+
+       -uniform
+           Set all weights to 1. In other words, all moves will be selected
+           with equal probability.
+
+       
+   polyglot merge-book
+       PolyGlot supports the following options
+
+       -in1
+           First input file (in PolyGlot book format).
+
+       -in2
+           Second input file (in PolyGlot book format).
+
+       -out (default: out.bin)
+           Output file (in PolyGlot book format).
+
+       Input files are not symmetrical, "in1" has priority over "in2". In
+       other words when a position occurs both in "in1" and "in2" only the
+       moves and weights from "in1" will be retained in "out".
